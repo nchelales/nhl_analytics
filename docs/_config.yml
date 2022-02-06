@@ -1,1 +1,13 @@
+
+name: "hockey analytics"
+output_dir: "docs"
+navbar:
+  title: "Hockey Analytics"
+  left:
+  - text: "Home"
+   href: index.html
+  - text: "Speed and Distance"
+   href: intro_fastRHockey.nb.html
+output:
+  html_document:
 theme: jekyll-theme-slate
