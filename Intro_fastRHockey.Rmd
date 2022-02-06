@@ -1,6 +1,8 @@
 ---
 title: "Introduction to fastRhockey"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 
@@ -14,12 +16,12 @@ library(ggimage)
 library(sportyR)
 ```
 
-Let use the fastRhockey library to first load play by play data from a particular team. Here we will choose the Montreal Canadiens. First we will get the list of game IDs for the Habs, and then use those game IDs to pull all the play by play data. First, lets find out what the team ID is for the Montreal Canadiens. 
+Let's use the fastRhockey library to first load play by play data from a particular team. Here we will choose the Montreal Canadiens. First we will get the list of game IDs for the Canadiens, and then use those game IDs to pull all the play by play data. First, lets find out what the team ID is for the Montreal Canadiens. 
 
 ```{r}
 nhl_teams()
 ```
-As you can see, the team ID for the montreal canadiens is 8. The function nhl_teams() also tells us other useful information like the location and venue ID.
+As you can see, the team ID for the Montreal Canadiens is 8. The function nhl_teams() also tells us other useful information like the location and venue ID.
 
 ```{r}
 schedules <- load_nhl_schedule(2022) %>%
