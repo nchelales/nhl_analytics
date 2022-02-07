@@ -1,7 +1,6 @@
 ---
 title: "Introduction to fastRhockey"
 output:
-  pdf_document: default
   html_notebook: default
 ---
 
