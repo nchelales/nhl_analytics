@@ -1,11 +1,11 @@
 ---
 title: "Introduction to fastRhockey"
-output:
-  html_notebook: default
+output: 
+  html_document:
+    keep_md: true
 ---
 
-
-```{r, messages=FALSE}
+```{r Load-Libraries, results='hide', message=FALSE, warning=FALSE}
 #importing libraries
 library(fastRhockey)
 library(tidyverse)
@@ -17,12 +17,13 @@ library(sportyR)
 
 Let's use the fastRhockey library to first load play by play data from a particular team. Here we will choose the Montreal Canadiens. First we will get the list of game IDs for the Canadiens, and then use those game IDs to pull all the play by play data. First, lets find out what the team ID is for the Montreal Canadiens. 
 
-```{r}
-nhl_teams()
+```{r Get-NHL-teams}
+nhl_teams() %>% select('team_id','name') %>%
+  head(10)
 ```
 As you can see, the team ID for the Montreal Canadiens is 8. The function nhl_teams() also tells us other useful information like the location and venue ID.
 
-```{r}
+```{r Select-Habs-Games}
 schedules <- load_nhl_schedule(2022) %>%
   filter(home_team_id == 8 | away_team_id == 8)
 schedules %>%
@@ -35,7 +36,7 @@ You might check this with the official NHL website or another sports page and se
 
 Now lets use the schedule data to pull some relevant data and do something interesting. 
 
-```{r}
+```{r Load-Habs-Games}
 habs_game_feed <- nhl_game_feed(schedules$game_id[1])$all_plays #get the first game data
 
 for (val in schedules$game_id[2:nrow(schedules)]) {
@@ -44,7 +45,7 @@ for (val in schedules$game_id[2:nrow(schedules)]) {
 ```
 The first chunk of code takes the schedule data to identify the Canadiens game and uses it to build a dataframe of all the Habs 2021-2022 plays. The code uses a loop, which lacks elegance, but it gets the job done with the current library we are working with. 
 
-```{r}
+```{r Get-Shots-On-Goals}
 habs_shot_data <- habs_game_feed %>% #filter to get shots on goal
   filter(result_event_type_id=="SHOT") %>%
   select(team_name, result_description, coordinates_x, coordinates_y, about_period)
@@ -56,7 +57,7 @@ habs_shot_data <- habs_shot_data %>% #put one team on each side of the rink
 
 The above code filters the data to select all plays involving a shot on goal, and adding a value to determine if they shot was a Canadiens shot or a shot from a Canadiens opponent. 
 
-```{r, results=FALSE}
+```{r Plot-Shots, results=FALSE}
 nhl_rink = geom_hockey('nhl',
                        boards_color= '#13294b') #create the NHL rink
 nhl_rink +
@@ -69,7 +70,7 @@ nhl_rink +
 
 Unsurprisingly, both the Canadiens and their opponents have their shots concentrated  close to the goal and spreading out in an outward V shape pattern, as good defense typically aims to clog up the middle and force the opponent to the edges of the rink. Now, lets see how or if this pattern changes as a function of time throughout the game. We can utilize our work from earlier and filter based on period.
 
-```{r, results=FALSE}
+```{r Plot-Period-Shots, results=FALSE}
 habs_shot_data_p1 <- habs_shot_data %>% #filter based upon period 
   filter(about_period == 1)
 habs_shot_data_p2 <- habs_shot_data %>%
