@@ -52,12 +52,12 @@ schedules %>%
 ## # A tibble: 6 × 7
 ##   away_team_id away_team_name  home_team_id home_team_name game_date  away_score
 ##          <int> <chr>                  <int> <chr>          <date>          <int>
-## 1           29 Columbus Blue …            8 MontrÃ©al Can… 2022-02-12          2
-## 2           15 Washington Cap…            8 MontrÃ©al Can… 2022-02-11          5
-## 3            1 New Jersey Dev…            8 MontrÃ©al Can… 2022-02-09          7
-## 4           29 Columbus Blue …            8 MontrÃ©al Can… 2022-01-31          6
-## 5           22 Edmonton Oilers            8 MontrÃ©al Can… 2022-01-30          7
-## 6           24 Anaheim Ducks              8 MontrÃ©al Can… 2022-01-28          5
+## 1            7 Buffalo Sabres             8 MontrÃ©al Can… 2022-02-13          5
+## 2           29 Columbus Blue …            8 MontrÃ©al Can… 2022-02-12          2
+## 3           15 Washington Cap…            8 MontrÃ©al Can… 2022-02-11          5
+## 4            1 New Jersey Dev…            8 MontrÃ©al Can… 2022-02-09          7
+## 5           29 Columbus Blue …            8 MontrÃ©al Can… 2022-01-31          6
+## 6           22 Edmonton Oilers            8 MontrÃ©al Can… 2022-01-30          7
 ## # … with 1 more variable: home_score <int>
 ```
 The above cell loads in the schedule data for the given season, filters to select only games in which either the home or away team is the Montreal Canadiens. Then we can preview the data that we have just filtered out using the head() command. The select function allows us to choose which variables we want to view in our preview. As you can see the most recent game the Canadiens played was against the Columbus Blue Jackets, one in which they lost 6-3. 
@@ -74,7 +74,7 @@ for (val in schedules$game_id[2:nrow(schedules)]) {
   habs_game_feed <- rbind(habs_game_feed, nhl_game_feed(val)$all_plays) #combine each dataframe together into one large data frame, with all the games
 }
 ```
-The first chunk of code takes the schedule data to identify the Canadiens game and uses it to build a dataframe of all the Habs 2021-2022 plays. The code uses a loop, which lacks elegance, but it gets the job done with the current library we are working with. 
+ Note that the above code is a bit slow, but since the NHL play by play data does not include game ID information, this seems to be the only way to filter out by game. The code above could perhaps be improved filtering out shot selections when the data is initially loaded, and eliminating the next cell. For now, we will skip this improvement. 
 
 
 ```r

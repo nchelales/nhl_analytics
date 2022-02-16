@@ -42,8 +42,11 @@ habs_game_feed <- nhl_game_feed(schedules$game_id[1])$all_plays #get the first g
 for (val in schedules$game_id[2:nrow(schedules)]) {
   habs_game_feed <- rbind(habs_game_feed, nhl_game_feed(val)$all_plays) #combine each dataframe together into one large data frame, with all the games
 }
+
+
+
 ```
-The first chunk of code takes the schedule data to identify the Canadiens game and uses it to build a dataframe of all the Habs 2021-2022 plays. The code uses a loop, which lacks elegance, but it gets the job done with the current library we are working with. 
+ Note that the above code is a bit slow, but since the NHL play by play data does not include game ID information, this seems to be the only way to filter out by game. The code above could perhaps be improved filtering out shot selections when the data is initially loaded, and eliminating the next cell. For now, we will skip this improvement. 
 
 ```{r Get-Shots-On-Goals}
 habs_shot_data <- habs_game_feed %>% #filter to get shots on goal
