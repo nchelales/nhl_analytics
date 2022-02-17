@@ -37,16 +37,18 @@ You might check this with the official NHL website or another sports page and se
 Now lets use the schedule data to pull some relevant data and do something interesting. 
 
 ```{r Load-Habs-Games}
-habs_game_feed <- nhl_game_feed(schedules$game_id[1])$all_plays #get the first game data
 
-for (val in schedules$game_id[2:nrow(schedules)]) {
-  habs_game_feed <- rbind(habs_game_feed, nhl_game_feed(val)$all_plays) #combine each dataframe together into one large data frame, with all the games
+pre_all <- vector("list", nrow(schedules)) #pre-allocated list
+
+for (val in schedules$game_id) {
+  pre_all[[which(val == schedules$game_id)]] <- nhl_game_feed(val)$all_plays %>%
+    filter(result_event_type_id == "SHOT") #combining together all the plays
 }
 
-
+habs_game_feed <- do.call(rbind, pre_all)
 
 ```
- Note that the above code is a bit slow, but since the NHL play by play data does not include game ID information, this seems to be the only way to filter out by game. The code above could perhaps be improved filtering out shot selections when the data is initially loaded, and eliminating the next cell. For now, we will skip this improvement. 
+ Note that the above code is a bit slow, but since the NHL play by play data does not include game ID information or home/away team information, this seems to be the only way to filter out the play by play data by team. 
 
 ```{r Get-Shots-On-Goals}
 habs_shot_data <- habs_game_feed %>% #filter to get shots on goal

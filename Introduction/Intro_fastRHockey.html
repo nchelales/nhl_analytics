@@ -420,16 +420,18 @@ date of the game is usually of little importance, but if you need to
 change this you could simply update it using the mutate() function.</p>
 <p>Now lets use the schedule data to pull some relevant data and do
 something interesting.</p>
-<pre class="r"><code>habs_game_feed &lt;- nhl_game_feed(schedules$game_id[1])$all_plays #get the first game data
+<pre class="r"><code>pre_all &lt;- vector(&quot;list&quot;, nrow(schedules)) #pre-allocated list
 
-for (val in schedules$game_id[2:nrow(schedules)]) {
-  habs_game_feed &lt;- rbind(habs_game_feed, nhl_game_feed(val)$all_plays) #combine each dataframe together into one large data frame, with all the games
-}</code></pre>
+for (val in schedules$game_id) {
+  pre_all[[which(val == schedules$game_id)]] &lt;- nhl_game_feed(val)$all_plays %&gt;%
+    filter(result_event_type_id == &quot;SHOT&quot;) #combining together all the plays
+}
+
+habs_game_feed &lt;- do.call(rbind, pre_all)</code></pre>
 <p>Note that the above code is a bit slow, but since the NHL play by
-play data does not include game ID information, this seems to be the
-only way to filter out by game. The code above could perhaps be improved
-filtering out shot selections when the data is initially loaded, and
-eliminating the next cell. For now, we will skip this improvement.</p>
+play data does not include game ID information or home/away team
+information, this seems to be the only way to filter out the play by
+play data by team.</p>
 <pre class="r"><code>habs_shot_data &lt;- habs_game_feed %&gt;% #filter to get shots on goal
   filter(result_event_type_id==&quot;SHOT&quot;) %&gt;%
   select(team_name, result_description, coordinates_x, coordinates_y, about_period)
