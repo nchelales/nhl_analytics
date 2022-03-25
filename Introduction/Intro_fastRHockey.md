@@ -52,12 +52,12 @@ schedules %>%
 ## # A tibble: 6 × 7
 ##   away_team_id away_team_name  home_team_id home_team_name game_date  away_score
 ##          <int> <chr>                  <int> <chr>          <date>          <int>
-## 1            7 Buffalo Sabres             8 MontrÃ©al Can… 2022-02-13          5
-## 2           29 Columbus Blue …            8 MontrÃ©al Can… 2022-02-12          2
-## 3           15 Washington Cap…            8 MontrÃ©al Can… 2022-02-11          5
-## 4            1 New Jersey Dev…            8 MontrÃ©al Can… 2022-02-09          7
-## 5           29 Columbus Blue …            8 MontrÃ©al Can… 2022-01-31          6
-## 6           22 Edmonton Oilers            8 MontrÃ©al Can… 2022-01-30          7
+## 1            6 Boston Bruins              8 MontrÃ©al Can… 2022-03-21          3
+## 2            9 Ottawa Senators            8 MontrÃ©al Can… 2022-03-19          1
+## 3           25 Dallas Stars               8 MontrÃ©al Can… 2022-03-17          4
+## 4           53 Arizona Coyotes            8 MontrÃ©al Can… 2022-03-15          6
+## 5           55 Seattle Kraken             8 MontrÃ©al Can… 2022-03-13          4
+## 6            8 MontrÃ©al Cana…            4 Philadelphia … 2022-03-13          4
 ## # … with 1 more variable: home_score <int>
 ```
 The above cell loads in the schedule data for the given season, filters to select only games in which either the home or away team is the Montreal Canadiens. Then we can preview the data that we have just filtered out using the head() command. The select function allows us to choose which variables we want to view in our preview. As you can see the most recent game the Canadiens played was against the Columbus Blue Jackets, one in which they lost 6-3. 
@@ -156,4 +156,6 @@ nhl_rink +
 ![](Intro_fastRHockey_files/figure-html/Plot-Period-Shots-3.png)<!-- -->
 
 As expected, the pattern holds, as its unlikely strategy on shot location changes very much from period to period. That's it for this tutorial on how to load and explore data using fastRhockey. 
+
+
 
